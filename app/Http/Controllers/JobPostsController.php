@@ -14,7 +14,7 @@ class JobPostsController extends Controller
      */
     public function index()
     {
-        //
+        return JobPosts::all();
     }
 
     /**

@@ -2,6 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\JobPostsController;
+use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\SubscriptorsController;
+use App\Http\Controllers\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +20,44 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::name('job_posts.')->group(function () {
+    Route::get('/job_posts', [JobPostsController::class, 'index'])->name('index');
+
+    Route::post('/job_posts', [JobPostsController::class, 'store'])->name('store');
+
+    Route::put('/job_posts/{job_posts}', [JobPostsController::class, 'update'])->name('update');
+
+    Route::delete('/job_posts/{job_posts}', [JobPostsController::class, 'destroy'])->name('destroy');
+});
+
+Route::name('orders.')->group(function () {
+    Route::get('/orders', [OrdersController::class, 'index'])->name('index');
+
+    Route::post('/orders', [OrdersController::class, 'store'])->name('store');
+
+    Route::put('/orders/{orders}', [OrdersController::class, 'update'])->name('update');
+
+    Route::delete('/orders/{orders}', [OrdersController::class, 'destroy'])->name('destroy');
+});
+
+Route::name('subscriptors.')->group(function () {
+    Route::get('/subscriptors', [SubscriptorsController::class, 'index'])->name('index');
+
+    Route::post('/subscriptors', [SubscriptorsController::class, 'store'])->name('store');
+
+    Route::put('/subscriptors/{subscriptors}', [SubscriptorsController::class, 'update'])->name('update');
+
+    Route::delete('/subscriptors/{subscriptors}', [SubscriptorsController::class, 'destroy'])->name('destroy');
+});
+
+Route::name('users.')->group(function () {
+    Route::get('/users', [UsersController::class, 'index'])->name('index');
+
+    Route::post('/users', [UsersController::class, 'store'])->name('store');
+
+    Route::put('/users/{users}', [UsersController::class, 'update'])->name('update');
+
+    Route::delete('/users/{users}', [UsersController::class, 'destroy'])->name('destroy');
 });
