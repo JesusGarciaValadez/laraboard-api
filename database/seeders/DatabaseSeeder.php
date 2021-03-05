@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
         $this->call([
             SubscriptorSeeder::class,
-            JobPostsSeeder::class,
+            OrdersSeeder::class,
         ]);
     }
 }

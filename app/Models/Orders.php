@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class JobPosts extends Model
+class Orders extends Model
 {
     use HasFactory;
 
@@ -16,13 +16,8 @@ class JobPosts extends Model
      */
     protected $fillable = [
         'user_id',
-        'title',
-        'is_remote',
-        'location',
-        'url',
-        'tags',
-        'logo_url',
-        'coupon',
-        'enhancements',
+        'job_post_id',
+        'billing_information',
+        'price',
     ];
 }

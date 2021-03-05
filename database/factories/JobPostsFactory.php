@@ -32,7 +32,6 @@ class JobPostsFactory extends Factory
             'logo_url' => $this->faker->imageUrl(),
             'coupon' => $this->faker->word(),
             'enhancements' => json_encode($this->faker->words()),
-            'price' => $this->faker->randomFloat(2, 0, 999),
         ];
     }
 }
