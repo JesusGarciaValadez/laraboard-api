@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\JobPosts;
+
+use App\Http\JobPosts;
 use Illuminate\Http\Request;
 
 class JobPostsController extends Controller
@@ -12,9 +13,9 @@ class JobPostsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(JobPosts $jobPosts)
     {
-        return JobPosts::all();
+        return $jobPosts->index();
     }
 
     /**
