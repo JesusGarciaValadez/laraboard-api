@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Subscriptor;
+use App\Models\Country;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class SubscriptorFactory extends Factory
+class CountryFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Subscriptor::class;
+    protected $model = Country::class;
 
     /**
      * Define the model's default state.
@@ -22,12 +22,10 @@ class SubscriptorFactory extends Factory
     public function definition()
     {
         return [
-            'email' => $this->faker->unique()->safeEmail,
-            'periodicity' => $this->faker->randomElement([
-                'instant',
-                'weekly',
-                'monthly',
-            ]),
+            'name' => $this->faker->country,
+            'description' => $this->faker->paragraph(),
+            'code' => $this->faker->countryCode,
+            'iso' => $this->faker->countryISOAlpha3,
         ];
     }
 }

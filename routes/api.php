@@ -18,11 +18,11 @@ use App\Http\Controllers\UsersController;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::name('job_posts.')->group(function () {
+Route::name('job_posts.')->middleware(['auth:sanctum'])->group(function () {
     Route::get('/job_posts', [JobPostsController::class, 'index'])->name('index');
 
     Route::post('/job_posts', [JobPostsController::class, 'store'])->name('store');
@@ -32,7 +32,7 @@ Route::name('job_posts.')->group(function () {
     Route::delete('/job_posts/{job_posts}', [JobPostsController::class, 'destroy'])->name('destroy');
 });
 
-Route::name('orders.')->group(function () {
+Route::name('orders.')->middleware(['auth:sanctum'])->group(function () {
     Route::get('/orders', [OrdersController::class, 'index'])->name('index');
 
     Route::post('/orders', [OrdersController::class, 'store'])->name('store');
@@ -42,7 +42,7 @@ Route::name('orders.')->group(function () {
     Route::delete('/orders/{orders}', [OrdersController::class, 'destroy'])->name('destroy');
 });
 
-Route::name('subscriptors.')->group(function () {
+Route::name('subscriptors.')->middleware(['auth:sanctum'])->group(function () {
     Route::get('/subscriptors', [SubscriptorsController::class, 'index'])->name('index');
 
     Route::post('/subscriptors', [SubscriptorsController::class, 'store'])->name('store');
@@ -52,7 +52,7 @@ Route::name('subscriptors.')->group(function () {
     Route::delete('/subscriptors/{subscriptors}', [SubscriptorsController::class, 'destroy'])->name('destroy');
 });
 
-Route::name('users.')->group(function () {
+Route::name('users.')->middleware(['auth:sanctum'])->group(function () {
     Route::get('/users', [UsersController::class, 'index'])->name('index');
 
     Route::post('/users', [UsersController::class, 'store'])->name('store');

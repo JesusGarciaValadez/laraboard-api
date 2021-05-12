@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -23,11 +24,18 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
+            'role_id' => Role::select('id')->inRandomOrder()->first()->id,
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'tax_id' => $this->faker->swiftBicNumber(),
+            'metadata' => [
+                User::METADATA_PERIODICITY => [
+                    User::METADATA_PERIODICITY_DAILY => $this->faker->boolean(),
+                    User::METADATA_PERIODICITY_WEEKLY => $this->faker->boolean(),
+                    User::METADATA_PERIODICITY_MONTHLY => $this->faker->boolean(),
+                ]
+            ],
             'remember_token' => Str::random(10),
         ];
     }

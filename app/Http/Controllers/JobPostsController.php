@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Http\JobPosts;
+use App\Models\JobPost as JobPostsModel;
 use Illuminate\Http\Request;
 
 class JobPostsController extends Controller
@@ -15,7 +15,8 @@ class JobPostsController extends Controller
      */
     public function index(JobPosts $jobPosts)
     {
-        return $jobPosts->index();
+        return 'pepox';
+        return JobPostsModel::all();
     }
 
     /**
@@ -32,7 +33,7 @@ class JobPostsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\JobPosts  $jobPosts
+     * @param  \App\Models\JobPost  $jobPosts
      * @return \Illuminate\Http\Response
      */
     public function show(JobPosts $jobPosts)
@@ -44,7 +45,7 @@ class JobPostsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\JobPosts  $jobPosts
+     * @param  \App\Models\JobPost  $jobPosts
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, JobPosts $jobPosts)
@@ -55,7 +56,7 @@ class JobPostsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\JobPosts  $jobPosts
+     * @param  \App\Models\JobPost  $jobPosts
      * @return \Illuminate\Http\Response
      */
     public function destroy(JobPosts $jobPosts)

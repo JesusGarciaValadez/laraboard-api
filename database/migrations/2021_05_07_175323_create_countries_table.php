@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSubscriptorsTable extends Migration
+class CreateCountriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,14 @@ class CreateSubscriptorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('subscriptors', function (Blueprint $table) {
-            $table->charset = 'utf8mb4';
-            $table->collation = 'utf8mb4_unicode_ci';
-
+        Schema::create('countries', function (Blueprint $table) {
             $table->id();
-            $table->text('email');
-            $table->enum('periodicity', [
-                'instant',
-                'weekly',
-                'monthly',
-            ]);
+
+            $table->string('name');
+            $table->longText('description')->nullable();
+            $table->string('code')->nullable();
+            $table->char('iso', 8)->nullable();
+
             $table->timestamps();
         });
     }
@@ -35,6 +32,6 @@ class CreateSubscriptorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subscriptors');
+        Schema::dropIfExists('countries');
     }
 }

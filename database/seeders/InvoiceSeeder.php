@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Subscriptor;
+use App\Models\Invoice;
 use Illuminate\Database\Seeder;
 
-class SubscriptorSeeder extends Seeder
+class InvoiceSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,8 +14,6 @@ class SubscriptorSeeder extends Seeder
      */
     public function run()
     {
-        Subscriptor::factory()
-            ->count(50)
-            ->create();
+        //
     }
 }

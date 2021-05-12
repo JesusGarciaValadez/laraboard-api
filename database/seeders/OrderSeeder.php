@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\JobPosts;
-use App\Models\User;
+use App\Models\JobPost;
+use App\Models\Order;
 use Illuminate\Database\Seeder;
 
-class JobPostsSeeder extends Seeder
+class OrderSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,8 +15,6 @@ class JobPostsSeeder extends Seeder
      */
     public function run()
     {
-        JobPosts::factory()
-            ->count(50)
-            ->create();
+        //
     }
 }

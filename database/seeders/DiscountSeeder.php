@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Orders;
+use App\Models\Discount;
 use Illuminate\Database\Seeder;
 
-class OrdersSeeder extends Seeder
+class DiscountSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,8 +14,6 @@ class OrdersSeeder extends Seeder
      */
     public function run()
     {
-        Orders::factory()
-            ->count(50)
-            ->create();
+        Discount::factory(10)->create();
     }
 }

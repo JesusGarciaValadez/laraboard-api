@@ -16,3 +16,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/login', function () {
+    return 'pepox';
+})->name('login');
+
+Route::name('password.')->group(function () {
+    Route::post('/password-reset', function () {
+        return 'pepox';
+    })->name('reset');
+});
