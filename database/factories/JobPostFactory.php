@@ -22,14 +22,17 @@ class JobPostFactory extends Factory
      */
     public function definition()
     {
+        $userCreator = User::select('id')->inRandomOrder()->first();
+        $userEditor = User::select('id')->inRandomOrder()->first();
         return [
-            'created_by' => User::select('id')->inRandomOrder()->first()->id,
-            'updated_by' => User::select('id')->inRandomOrder()->first()?->id ?? null,
+            'created_by' => $userCreator->id ?? (User::factory()->create())->id,
+            'updated_by' => $userEditor->id ?? null,
             'countries' => [],
-            'title' => $this->faker->title,
+            'company' => $this->faker->company(),
+            'title' => $this->faker->title(),
             'description' => $this->faker->paragraph(),
             'is_remote' => $this->faker->boolean(),
-            'url' => $this->faker->url,
+            'url' => $this->faker->url(),
             'tags' => [],
             'logo_url' => $this->faker->imageUrl(),
             'enhancements' => [],

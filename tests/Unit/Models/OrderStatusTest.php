@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models;
 
 use App\Models\JobPost;
+use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\OrderStatus;
 use App\Models\Role;
@@ -13,11 +14,10 @@ use Tests\TestCase;
 
 class OrderStatusTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_has_statuses_attribute()
     {
         $user = User::factory()->create(['role_id' => Role::factory()->create()]);
@@ -33,9 +33,7 @@ class OrderStatusTest extends TestCase
         self::assertStringContainsString(OrderStatus::PAID, $order->status->statuses);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_has_many_orders()
     {
         $user = User::factory()->create(['role_id' => Role::factory()->create()]);

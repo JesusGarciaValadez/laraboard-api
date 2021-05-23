@@ -25,13 +25,19 @@ class OrderFactory extends Factory
      */
     public function definition()
     {
+        $userCreator = (new User())->select('id')->inRandomOrder()->first();
+        $userEditor = (new User())->select('id')->inRandomOrder()->first();
+        $jobPost = JobPost::select('id')->inRandomOrder()->first();
+        $discount = Discount::select('id')->inRandomOrder()->first();
+        $orderStatus = OrderStatus::select('id')->inRandomOrder()->first();
+
         return [
-            'job_post_id' => JobPost::select('id')->inRandomOrder()->first()->id,
-            'discount_id' => Discount::select('id')->inRandomOrder()->first()?->id ?? null,
-            'created_by' => User::select('id')->inRandomOrder()->first()->id,
-            'updated_by' => User::select('id')->inRandomOrder()->first()->id ?? null,
-            'order_status_id' => OrderStatus::select('id')->inRandomOrder()->first()->id,
-            'billing_information' => $this->faker->paragraph(),
+            'job_post_id' => $jobPost->id ?? JobPost::factory()->create()->id,
+            'discount_id' => $discount->id ?? Discount::factory()->create(),
+            'created_by' => $userCreator->id ?? User::factory()->create()->id,
+            'updated_by' => $userEditor->id ?? User::factory()->create()->id,
+            'order_status_id' => $orderStatus->id ?? OrderStatus::factory()->create()->id,
+            'billing_information' => $this->faker->paragraph($this->faker->randomNumber(2), true),
             'amount' => $this->faker->randomFloat(2, 0, 10000),
             'tax_percentage' => $this->faker->randomNumber(2),
         ];

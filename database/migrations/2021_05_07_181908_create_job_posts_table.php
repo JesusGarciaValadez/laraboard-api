@@ -21,10 +21,12 @@ class CreateJobPostsTable extends Migration
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table->foreignId('updated_by')
+                ->nullable()
                 ->constrained('users')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table->json('countries');
+            $table->string('company');
             $table->string('title');
             $table->longText('description')->nullable();
             $table->boolean('is_remote')->default(false);
@@ -35,6 +37,7 @@ class CreateJobPostsTable extends Migration
             $table->date('go_live_date')->default(now());
             $table->date('due_date')->default(now()->addMonth())->nullable();
             $table->boolean('is_active')->default(false);
+            $table->softDeletes();
 
             $table->timestamps();
         });

@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models;
 
 use App\Models\JobPost;
+use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\OrderStatus;
 use App\Models\Role;
@@ -13,11 +14,10 @@ use Tests\TestCase;
 
 class JobPostTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_has_an_order_related()
     {
         $user = User::factory()->create(['role_id' => Role::factory()->create()]);
@@ -35,9 +35,7 @@ class JobPostTest extends TestCase
         self::assertInstanceOf(Order::class, $jobPost->order);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_was_created_by_a_user()
     {
         $user = User::factory()->create(['role_id' => Role::factory()->create()]);
@@ -47,9 +45,7 @@ class JobPostTest extends TestCase
         self::assertInstanceOf(User::class, $jobPost->createdBy);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_was_updated_by_a_user()
     {
         $userCreator = User::factory()->create(['role_id' => Role::factory()->create()]);
@@ -63,9 +59,7 @@ class JobPostTest extends TestCase
         self::assertInstanceOf(User::class, $jobPost->updatedBy);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_store_and_get_countries_attribute()
     {
         $user = User::factory()->create(['role_id' => Role::factory()->create()]);
@@ -81,9 +75,7 @@ class JobPostTest extends TestCase
         self::assertEquals(30, $jobPost->countries['yyyy']);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_store_and_get_tags_attribute()
     {
         $user = User::factory()->create(['role_id' => Role::factory()->create()]);
@@ -99,9 +91,7 @@ class JobPostTest extends TestCase
         self::assertEquals(50, $jobPost->tags['yyyy']);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_is_live()
     {
         $jobPost = JobPost::factory()->create([

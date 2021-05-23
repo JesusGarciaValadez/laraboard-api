@@ -36,6 +36,9 @@ class DiscountFactory extends Factory
             'is_unique' => $this->faker->boolean(),
             'is_manual' => $this->faker->boolean(),
             'is_redeemed' => $this->faker->boolean(),
+            'go_live_date' => now(),
+            'due_date' => now()->addMonth(),
+            'is_active' => $this->faker->boolean(),
         ];
     }
 }

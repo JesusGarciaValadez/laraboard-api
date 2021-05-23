@@ -10,11 +10,10 @@ use Tests\TestCase;
 
 class RoleTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
-    /**
-     * @test
-     */
+    /** @test */
     public function many_users_can_share_the_same_role(): void
     {
         Role::factory(3)->create();

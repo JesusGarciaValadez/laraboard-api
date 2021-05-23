@@ -16,11 +16,10 @@ use Tests\TestCase;
 
 class InvoiceTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_has_an_order()
     {
         $user = User::factory()->create(['role_id' => Role::factory()->create()]);
@@ -41,9 +40,7 @@ class InvoiceTest extends TestCase
         self::assertInstanceOf(Order::class, $invoice->order);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_has_a_discount_related()
     {
         $user = User::factory()->create(['role_id' => Role::factory()->create()]);
@@ -66,9 +63,7 @@ class InvoiceTest extends TestCase
         self::assertInstanceOf(Discount::class, $invoice->discount);
     }
 
-    /**
-     * @test
-     */
+    /** @test  */
     public function it_was_created_by_a_user()
     {
         $user = User::factory()->create(['role_id' => Role::factory()->create()]);
@@ -89,9 +84,7 @@ class InvoiceTest extends TestCase
         self::assertInstanceOf(User::class, $invoice->createdBy);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_was_updated_by_a_user()
     {
         $user = User::factory()->create(['role_id' => Role::factory()->create()]);
@@ -114,9 +107,7 @@ class InvoiceTest extends TestCase
         self::assertInstanceOf(User::class, $invoice->updatedBy);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_has_an_invoice_status()
     {
         $user = User::factory()->create(['role_id' => Role::factory()->create()]);
@@ -137,5 +128,24 @@ class InvoiceTest extends TestCase
 
         self::assertInstanceOf(InvoiceStatus::class, $invoice->status);
         self::assertEquals($invoiceStatus->id, $invoice->status->id);
+    }
+
+    /** @test  */
+    public function it_can_be_soft_deleted(): void
+    {
+        $invoice = Invoice::factory()->create();
+        $invoice->delete();
+
+        $this->assertTrue($invoice->trashed());
+    }
+
+    /** @test */
+    public function it_can_be_restored(): void
+    {
+        $invoice = Invoice::factory()->create();
+        $invoice->delete();
+        $invoice->restore();
+
+        $this->assertFalse($invoice->trashed());
     }
 }

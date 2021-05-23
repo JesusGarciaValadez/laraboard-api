@@ -2,31 +2,75 @@
 
 namespace App\Models;
 
+use Database\Factories\DiscountFactory;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use \Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 
 /**
  * Class Discount
+ *
  * @package App\Models
  * @property User $createdBy
  * @property User $updatedBy
  * @property string $name
  * @property string|null $description
  * @property string $catalog_code
- * @property string short_code
  * @property float $amount
  * @property string $percentage
  * @property boolean $is_unique
  * @property boolean $is_manual
  * @property boolean $is_redeemed
  * @property Collection $invoices
+ * @property int $id
+ * @property int $created_by
+ * @property int $updated_by
+ * @property string $short_code
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read int|null $invoices_count
+ * @method static DiscountFactory factory(...$parameters)
+ * @method static Builder|Discount newModelQuery()
+ * @method static Builder|Discount newQuery()
+ * @method static Builder|Discount query()
+ * @method static Builder|Discount whereAmount($value)
+ * @method static Builder|Discount whereCatalogCode($value)
+ * @method static Builder|Discount whereCreatedAt($value)
+ * @method static Builder|Discount whereCreatedBy($value)
+ * @method static Builder|Discount whereDescription($value)
+ * @method static Builder|Discount whereId($value)
+ * @method static Builder|Discount whereIsManual($value)
+ * @method static Builder|Discount whereIsRedeemed($value)
+ * @method static Builder|Discount whereIsUnique($value)
+ * @method static Builder|Discount whereName($value)
+ * @method static Builder|Discount wherePercentage($value)
+ * @method static Builder|Discount whereShortCode($value)
+ * @method static Builder|Discount whereUpdatedAt($value)
+ * @method static Builder|Discount whereUpdatedBy($value)
+ * @mixin Eloquent
+ * @property \datetime $go_live_date
+ * @property \datetime|null $due_date
+ * @property bool $is_active
+ * @property Carbon|null $deleted_at
+ * @property-read bool $is_live
+ * @method static \Illuminate\Database\Query\Builder|Discount onlyTrashed()
+ * @method static Builder|Discount whereDeletedAt($value)
+ * @method static Builder|Discount whereDueDate($value)
+ * @method static Builder|Discount whereGoLiveDate($value)
+ * @method static Builder|Discount whereIsActive($value)
+ * @method static \Illuminate\Database\Query\Builder|Discount withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Discount withoutTrashed()
  */
 class Discount extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     /**
      * The table associated with the model.
@@ -42,8 +86,12 @@ class Discount extends Model
      */
     protected $casts = [
         'amount' => 'float',
+        'is_unique' => 'boolean',
         'is_manual' => 'boolean',
+        'is_redeemed' => 'boolean',
         'is_active' => 'boolean',
+        'go_live_date' => 'datetime:Y-m-d',
+        'due_date' => 'datetime:Y-m-d',
     ];
 
     /**
@@ -62,7 +110,10 @@ class Discount extends Model
         'percentage',
         'is_unique',
         'is_manual',
-        'is_reedemed',
+        'is_redeemed',
+        'is_active',
+        'go_live_date',
+        'due_date',
     ];
 
     /**
@@ -93,5 +144,15 @@ class Discount extends Model
     public function updatedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    /**
+     * A Discount is live
+     *
+     * @return bool
+     */
+    public function getIsLiveAttribute(): bool
+    {
+        return $this->go_live_date->isPast();
     }
 }

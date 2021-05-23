@@ -2,17 +2,37 @@
 
 namespace App\Models;
 
+use Database\Factories\CountryFactory;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
 /**
  * Class Country
+ *
  * @package App\Models
  * @property string $name
  * @property string|null $description
  * @property string|null $code
  * @property string|null $iso
+ * @property int $id
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static CountryFactory factory(...$parameters)
+ * @method static Builder|Country newModelQuery()
+ * @method static Builder|Country newQuery()
+ * @method static Builder|Country query()
+ * @method static Builder|Country whereCode($value)
+ * @method static Builder|Country whereCreatedAt($value)
+ * @method static Builder|Country whereDescription($value)
+ * @method static Builder|Country whereId($value)
+ * @method static Builder|Country whereIso($value)
+ * @method static Builder|Country whereName($value)
+ * @method static Builder|Country whereUpdatedAt($value)
+ * @mixin Eloquent
  */
 class Country extends Model
 {

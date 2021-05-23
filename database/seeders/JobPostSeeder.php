@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Invoice;
 use App\Models\JobPost;
-use App\Models\Order;
+use App\Models\Invoice;
 use Illuminate\Database\Seeder;
 
 class JobPostSeeder extends Seeder
@@ -21,7 +21,7 @@ class JobPostSeeder extends Seeder
         $jobPosts = JobPost::factory(100)->create();
 
         $jobPosts->each(function ($jobPost) {
-            $order = Order::factory()->create(['job_post_id' => $jobPost->id]);
+            $order = Invoice::factory()->create(['job_post_id' => $jobPost->id]);
 
             $jobPost->order_id = $order->id;
             $jobPost->save();

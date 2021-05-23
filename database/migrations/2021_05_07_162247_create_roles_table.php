@@ -19,6 +19,7 @@ class CreateRolesTable extends Migration
 
             $table->string('name')->default(Role::JOBSEEKER);
             $table->string('description')->default(null);
+            $table->softDeletes();
 
             $table->timestamps();
         });

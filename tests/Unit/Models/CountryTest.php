@@ -9,11 +9,10 @@ use Tests\TestCase;
 
 class CountryTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_share_all_the_countries()
     {
         self::assertStringContainsStringIgnoringCase('Canada', Country::getCountries());

@@ -16,11 +16,10 @@ use Tests\TestCase;
 
 class DiscountTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
-    /**
-     * @test
-     */
+    /** @test  */
     public function it_is_set_in_many_orders()
     {
         $user = User::factory()->create(['role_id' => Role::factory()->create()]);
@@ -39,9 +38,7 @@ class DiscountTest extends TestCase
         self::assertInstanceOf(Discount::class, Order::find(4)->discount);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_is_set_in_many_invoices()
     {
         $user = User::factory()->create(['role_id' => Role::factory()->create()]);
@@ -66,9 +63,7 @@ class DiscountTest extends TestCase
         self::assertCount(9, $discount->invoices);
     }
 
-    /**
-     * @test
-     */
+    /** @test  */
     public function it_was_created_by_a_user()
     {
         $user = User::factory()->create(['role_id' => Role::factory()->create()]);
@@ -90,9 +85,7 @@ class DiscountTest extends TestCase
         self::assertInstanceOf(User::class, $discount->createdBy);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_was_updated_by_a_user()
     {
         $user = User::factory()->create(['role_id' => Role::factory()->create()]);
@@ -120,5 +113,45 @@ class DiscountTest extends TestCase
         self::assertInstanceOf(User::class, $discount->updatedBy);
         self::assertInstanceOf(User::class, $order->discount->updatedBy);
         self::assertInstanceOf(User::class, $invoice->discount->updatedBy);
+    }
+
+    /** @test */
+    public function it_is_live()
+    {
+        $discount = Discount::factory()->create([
+            'created_by' => User::factory()->create([
+                'role_id' => Role::factory()->create()->id,
+            ])->id,
+            'go_live_date' => now(),
+        ]);
+
+        self::assertTrue($discount->isLive);
+
+        $discount->go_live_date = now()->addWeek();
+
+        self::assertFalse($discount->isLive);
+
+        $discount->go_live_date = now()->subWeek();
+
+        self::assertTrue($discount->isLive);
+    }
+
+    /** @test  */
+    public function it_can_be_soft_deleted(): void
+    {
+        $discount = Discount::factory()->create(['created_by' => User::factory()->create()]);
+        $discount->delete();
+
+        $this->assertTrue($discount->trashed());
+    }
+
+    /** @test */
+    public function it_can_be_restored(): void
+    {
+        $discount = Discount::factory()->create(['created_by' => User::factory()->create()]);
+        $discount->delete();
+        $discount->restore();
+
+        $this->assertFalse($discount->trashed());
     }
 }

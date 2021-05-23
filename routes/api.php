@@ -1,11 +1,16 @@
 <?php
 
+use App\Http\Controllers\DiscountController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\InvoiceStatusController;
+use App\Http\Controllers\JobPostController;
+use App\Http\Controllers\CountryController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderStatusController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\JobPostsController;
-use App\Http\Controllers\OrdersController;
-use App\Http\Controllers\SubscriptorsController;
-use App\Http\Controllers\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,42 +27,13 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::name('job_posts.')->middleware(['auth:sanctum'])->group(function () {
-    Route::get('/job_posts', [JobPostsController::class, 'index'])->name('index');
+Route::name('country.index')->get('/country', CountryController::class);
+Route::name('role.index')->get('/role', RoleController::class);
+Route::name('invoice_status.index')->get('/invoice_status', InvoiceStatusController::class);
+Route::name('order_status.index')->get('/order_status', OrderStatusController::class);
 
-    Route::post('/job_posts', [JobPostsController::class, 'store'])->name('store');
-
-    Route::put('/job_posts/{job_posts}', [JobPostsController::class, 'update'])->name('update');
-
-    Route::delete('/job_posts/{job_posts}', [JobPostsController::class, 'destroy'])->name('destroy');
-});
-
-Route::name('orders.')->middleware(['auth:sanctum'])->group(function () {
-    Route::get('/orders', [OrdersController::class, 'index'])->name('index');
-
-    Route::post('/orders', [OrdersController::class, 'store'])->name('store');
-
-    Route::put('/orders/{orders}', [OrdersController::class, 'update'])->name('update');
-
-    Route::delete('/orders/{orders}', [OrdersController::class, 'destroy'])->name('destroy');
-});
-
-Route::name('subscriptors.')->middleware(['auth:sanctum'])->group(function () {
-    Route::get('/subscriptors', [SubscriptorsController::class, 'index'])->name('index');
-
-    Route::post('/subscriptors', [SubscriptorsController::class, 'store'])->name('store');
-
-    Route::put('/subscriptors/{subscriptors}', [SubscriptorsController::class, 'update'])->name('update');
-
-    Route::delete('/subscriptors/{subscriptors}', [SubscriptorsController::class, 'destroy'])->name('destroy');
-});
-
-Route::name('users.')->middleware(['auth:sanctum'])->group(function () {
-    Route::get('/users', [UsersController::class, 'index'])->name('index');
-
-    Route::post('/users', [UsersController::class, 'store'])->name('store');
-
-    Route::put('/users/{users}', [UsersController::class, 'update'])->name('update');
-
-    Route::delete('/users/{users}', [UsersController::class, 'destroy'])->name('destroy');
-});
+Route::middleware(['auth:sanctum'])->group(fn () => Route::resource('/user', UserController::class));
+Route::middleware(['auth:sanctum'])->group(fn () => Route::resource('/discount', DiscountController::class));
+Route::middleware(['auth:sanctum'])->group(fn () => Route::resource('/job_post', JobPostController::class));
+Route::middleware(['auth:sanctum'])->group(fn () => Route::resource('/order', OrderController::class));
+Route::middleware(['auth:sanctum'])->group(fn () => Route::resource('/invoice', InvoiceController::class));

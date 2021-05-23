@@ -16,17 +16,28 @@ class CreateDiscountsTable extends Migration
         Schema::create('discounts', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('created_by')->constrained('users');
-            $table->foreignId('updated_by')->constrained('users');
+            $table->foreignId('created_by')
+                ->constrained('users')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            $table->foreignId('updated_by')
+                ->nullable()
+                ->constrained('users')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
             $table->string('name');
             $table->longText('description')->nullable();
             $table->string('catalog_code');
             $table->string('short_code');
-            $table->unsignedFloat('amount', 10, 2);
-            $table->string('percentage');
+            $table->unsignedFloat('amount', 10, 2)->nullable();
+            $table->integer('percentage')->default(0)->nullable();
             $table->boolean('is_unique')->default(true);
             $table->boolean('is_manual')->default(false);
             $table->boolean('is_redeemed')->default(false);
+            $table->date('go_live_date')->default(now());
+            $table->date('due_date')->default(now()->addMonth())->nullable();
+            $table->boolean('is_active')->default(false);
+            $table->softDeletes();
 
             $table->timestamps();
         });

@@ -15,11 +15,10 @@ use Tests\TestCase;
 
 class UserTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_has_a_role(): void
     {
         $firstRole = Role::factory()->create(['name' => 'AAA']);
@@ -38,9 +37,7 @@ class UserTest extends TestCase
         self::assertCount(3, User::where('role_id', $thirdRole->id)->get());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_has_many_job_posts(): void
     {
         Role::factory()->create();
@@ -55,9 +52,7 @@ class UserTest extends TestCase
         self::assertCount(10, $user->jobPosts);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_has_many_orders(): void
     {
         Role::factory()->create();
@@ -80,9 +75,7 @@ class UserTest extends TestCase
         self::assertInstanceOf(Order::class, $otherUser->orders->first());
     }
 
-    /**
-     * @test
-     */
+    /** @test  */
     public function it_has_many_invoices(): void
     {
         Role::factory()->create();
@@ -110,5 +103,24 @@ class UserTest extends TestCase
         self::assertCount(15, $otherUser->invoices);
         self::assertInstanceOf(Invoice::class, $user->invoices->first());
         self::assertInstanceOf(Invoice::class, $otherUser->invoices->first());
+    }
+
+    /** @test  */
+    public function it_can_be_soft_deleted(): void
+    {
+        $user = User::factory()->create();
+        $user->delete();
+
+        $this->assertTrue($user->trashed());
+    }
+
+    /** @test */
+    public function it_can_be_restored(): void
+    {
+        $user = User::factory()->create();
+        $user->delete();
+        $user->restore();
+
+        $this->assertFalse($user->trashed());
     }
 }

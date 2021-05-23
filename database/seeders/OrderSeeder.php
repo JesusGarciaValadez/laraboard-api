@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\JobPost;
-use App\Models\Order;
+use App\Models\Invoice;
 use Illuminate\Database\Seeder;
 
 class OrderSeeder extends Seeder

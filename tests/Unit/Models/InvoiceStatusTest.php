@@ -15,11 +15,10 @@ use Tests\TestCase;
 
 class InvoiceStatusTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
-    /**
-     * @test
-     */
+    /**  @test  */
     public function it_has_many_invoices()
     {
         $user = User::factory()->create(['role_id' => Role::factory()->create()]);

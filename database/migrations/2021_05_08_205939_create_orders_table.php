@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Order;
+use App\Models\Invoice;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -40,8 +40,9 @@ class CreateOrdersTable extends Migration
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table->longText('billing_information')->nullable();
-            $table->unsignedFloat('amount');
-            $table->integer('tax_percentage');
+            $table->unsignedFloat('amount', 10, 2);
+            $table->integer('tax_percentage')->default(0);
+            $table->softDeletes();
 
             $table->timestamps();
         });

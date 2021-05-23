@@ -21,6 +21,7 @@ class CreateInvoicesTable extends Migration
             $table->foreignId('created_by')->constrained('users');
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->foreignId('invoice_status_id')->constrained('invoice_statuses');
+            $table->softDeletes();
 
             $table->timestamps();
         });

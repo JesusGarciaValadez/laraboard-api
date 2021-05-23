@@ -25,12 +25,18 @@ class InvoiceFactory extends Factory
      */
     public function definition()
     {
+        $userCreator = (new User())->select('id')->inRandomOrder()->first();
+        $userEditor = (new User())->select('id')->inRandomOrder()->first();
+        $order = Order::select('id')->inRandomOrder()->first();
+        $discount = Discount::select('id')->inRandomOrder()->first();
+        $invoiceStatus = InvoiceStatus::select('id')->inRandomOrder()->first();
+
         return [
-            'order_id' => Order::select('id')->inRandomOrder()->first()->id,
-            'discount_id' => Discount::select('id')->inRandomOrder()->first()?->id ?? null,
-            'created_by' => User::select('id')->inRandomOrder()->first()->id,
-            'updated_by' => User::select('id')->inRandomOrder()->first()->id,
-            'invoice_status_id' => InvoiceStatus::select('id')->inRandomOrder()->first()->id,
+            'order_id' => $order->id ?? Order::factory()->create()->id,
+            'discount_id' => $discount->id ?? Discount::factory()->create()->id,
+            'created_by' => $userCreator->id ?? User::factory()->create()->id,
+            'updated_by' => $userEditor->id ?? User::factory()->create()->id,
+            'invoice_status_id' => $invoiceStatus->id ?? InvoiceStatus::factory()->create()->id,
         ];
     }
 }

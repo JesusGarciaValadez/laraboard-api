@@ -15,8 +15,8 @@ class AlterJobPostsTable extends Migration
     {
         Schema::table('job_posts', function (Blueprint $table) {
             $table->foreignId('order_id')
-                ->nullable()
                 ->after('id')
+                ->nullable()
                 ->constrained('orders')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();

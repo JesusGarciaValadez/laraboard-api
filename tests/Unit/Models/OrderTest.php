@@ -4,6 +4,7 @@ namespace Tests\Unit\Models;
 
 use App\Models\Discount;
 use App\Models\JobPost;
+use App\Models\Invoice;
 use App\Models\Order;
 use App\Models\OrderStatus;
 use App\Models\Role;
@@ -14,11 +15,10 @@ use Tests\TestCase;
 
 class OrderTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
+    use WithFaker;
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_has_job_posts_related()
     {
         $user = User::factory()->create(['role_id' => Role::factory()->create()]);
@@ -36,9 +36,7 @@ class OrderTest extends TestCase
         self::assertInstanceOf(JobPost::class, $order->jobPost);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_has_a_discount_applied()
     {
         $user = User::factory()->create(['role_id' => Role::factory()->create()]);
@@ -58,9 +56,7 @@ class OrderTest extends TestCase
         self::assertInstanceOf(Discount::class, $order->discount);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_was_created_by_a_user()
     {
         $user = User::factory()->create([
@@ -80,9 +76,7 @@ class OrderTest extends TestCase
         self::assertInstanceOf(User::class, $order->createdBy);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_was_updated_by_a_user()
     {
         $user = User::factory()->create([
@@ -106,9 +100,7 @@ class OrderTest extends TestCase
         self::assertInstanceOf(User::class, $order->updatedBy);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_has_a_order_status()
     {
         $user = User::factory()->create([
@@ -127,5 +119,24 @@ class OrderTest extends TestCase
         self::assertEquals($orderStatus->id, $order->status->id);
         self::assertEquals($orderStatus->id, $jobPost->order->status->id);
         self::assertInstanceOf(OrderStatus::class, $order->status);
+    }
+
+    /** @test  */
+    public function it_can_be_soft_deleted(): void
+    {
+        $order = Invoice::factory()->create(['created_by' => User::factory()->create()->id]);
+        $order->delete();
+
+        $this->assertTrue($order->trashed());
+    }
+
+    /** @test */
+    public function it_can_be_restored(): void
+    {
+        $order = Invoice::factory()->create(['created_by' => User::factory()->create()]);
+        $order->delete();
+        $order->restore();
+
+        $this->assertFalse($order->trashed());
     }
 }

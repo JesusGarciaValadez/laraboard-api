@@ -26,7 +26,7 @@ class RoleFactory extends Factory
                 Role::SUPER_ADMIN,
                 Role::ADMIN,
                 Role::JOBPOSTER,
-                Role::JOBSEEKER
+                Role::JOBSEEKER,
             ]),
             'description' => $this->faker->paragraph(),
         ];
